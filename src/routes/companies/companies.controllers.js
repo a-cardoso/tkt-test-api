@@ -2,8 +2,18 @@ const services = require('./companies.services');
 
 const httpConstants = require('../../constants/httpConstants');
 
+function getQueryData(data) {
+    return {
+        ...(data.name && {name: data.name}),
+        ...(data.sector && {name: data.sector}),
+        ...(data.siren && {siren: data.siren})
+    };
+}
+
 async function readManyCompanies(req, res) {
-    const companies = await services.readManyCompanies();
+    const filters = getQueryData(req.query);
+
+    const companies = await services.readManyCompanies(filters);
 
     if (!companies) {
         res.status(httpConstants.HTTP_NOT_FOUND).send({ message: 'companies not found' });

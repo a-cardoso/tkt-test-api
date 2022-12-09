@@ -5,21 +5,28 @@ const controllers = require('./companies.controllers');
 
 const router = express.Router();
 
-//todo: add, delete, filter, sort, 'add result', 'endpoint to compare', pagination, swagger
-//todo: removed fixed limit of 10
-
-router.route('/')
-    .get(controllers.readManyCompanies) //get with pagination/filter/sort in params
+//create one
+router.route('/create')
     .post(validators.createOneCompany, controllers.createOneCompany) //add new company
 ;
 
-router.route('/:companyId')
-    .get(validators.readOneCompanyById, controllers.readOneCompanyById) //get data from one company by _id
-    .delete(validators.deleteOneCompanyById, controllers.deleteOneCompanyById) //delete a company by _id
+//readMany - filters/sort (pagination)
+router.route('/')
+    .get(controllers.readManyCompanies);
+
+//get one by ID
+router.route('/read/:companyId')
+    .get(validators.readOneCompanyById, controllers.readOneCompanyById)
 ;
 
-router.route('/result/add/:companyId')
-    .post() //push new result
+//delete one by ID
+router.route('/delete/:companyId')
+    .delete(validators.deleteOneCompanyById, controllers.deleteOneCompanyById)
 ;
+
+//push a result
+// router.route('/result/add/:companyId')
+//     .post()
+// ;
 
 module.exports = router;

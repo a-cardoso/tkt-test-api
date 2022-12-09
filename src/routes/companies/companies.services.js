@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const Companies = mongoose.model('Companies');
 
-async function readManyCompanies() {
+async function readManyCompanies(filters) {
     try {
-        return Companies.find({}).limit(10).lean();
+        return Companies.find(filters).lean();
     } catch (err) {
         console.log(err);
         return false;
